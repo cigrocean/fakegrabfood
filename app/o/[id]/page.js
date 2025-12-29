@@ -63,14 +63,14 @@ export async function generateMetadata(props) {
 
   // Ensure absolute image URL with CACHE BUSTING
   const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
-  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=4` : null; // Increment version to 4
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=5` : null; // Increment version to 5
 
   const imageObj = imageUrl ? {
     url: imageUrl,
     secureUrl: imageUrl,
     width: 1200,
     height: 630,
-    type: 'image/png',
+    type: 'image/jpeg',
     alt: 'GrabFood Group Order',
   } : null;
 

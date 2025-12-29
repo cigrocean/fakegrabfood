@@ -5,13 +5,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState('');
   // Set default template immediately
-  const [selectedTemplate, setSelectedTemplate] = useState('/templates/thumbnail.png');
+  const [selectedTemplate, setSelectedTemplate] = useState('/templates/thumbnail.jpg');
   const [destinationUrl, setDestinationUrl] = useState('');
   // Set default preview immediately
-  const [previewImage, setPreviewImage] = useState('/templates/thumbnail.png');
+  const [previewImage, setPreviewImage] = useState('/templates/thumbnail.jpg');
 
   const templates = [
-    { name: 'Default Grab', path: '/templates/thumbnail.png' },
+    { name: 'Default Grab', path: '/templates/thumbnail.jpg' },
   ];
 
   const handleTemplateSelect = (path) => {
