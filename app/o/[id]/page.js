@@ -47,15 +47,17 @@ export async function generateMetadata(props) {
   }
 
   // Robustly determine the absolute URL using headers
-  // This works on Vercel, Localhost, and VPS without manual config
   const headersList = await headers();
   const host = headersList.get('host') || 'localhost:3000';
-  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const isLocalhost = host.includes('localhost');
+  const protocol = headersList.get('x-forwarded-proto') || (isLocalhost ? 'http' : 'https');
   const baseUrl = `${protocol}://${host}`;
 
-  // Ensure absolute image URL
-  // link.imageUrl is like "/templates/thumbnail.png"
-  const imageUrl = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
+  // Ensure absolute image URL with CACHE BUSTING
+  // ?v=2 forces platforms to re-fetch the image if they cached a broken one
+  const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=2` : null;
+
   const images = imageUrl ? [imageUrl] : [];
 
   return {
@@ -73,6 +75,7 @@ export async function generateMetadata(props) {
       title: 'Đặt đơn nhóm GrabFood',
       description: 'Mỗi thành viên có thể tự chọn món yêu thích từ điện thoại của mình và cùng tiết kiệm phí giao hàng!',
       images: images,
+      domain: 'r.grab.com', // Try to spoof twitter card domain
     }
   };
 }

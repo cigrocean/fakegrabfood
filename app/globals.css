@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}
+
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
