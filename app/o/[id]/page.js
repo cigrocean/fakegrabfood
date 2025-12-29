@@ -49,21 +49,17 @@ export async function generateMetadata(props) {
   // Robustly determine the absolute URL using headers
   const headersList = await headers();
   
-  // Detemine the Best Host for Assets
-  // Prefer VERCEL_URL if available (guarantees public access), otherwise use Request Host
-  let host = process.env.VERCEL_URL || headersList.get('host') || 'localhost:3000';
+  // Use the Host header from the request. 
+  // This is safer than VERCEL_URL because it matches the actual domain the user/bot is visiting.
+  const host = headersList.get('host') || 'localhost:3000';
   
   const isLocalhost = host.includes('localhost');
   const protocol = headersList.get('x-forwarded-proto') || (isLocalhost ? 'http' : 'https');
-  
-  // Clean host (VERCEL_URL often doesn't have protocol, so we add it)
-  // If host already has http/https, strip it first to be safe (though VERCEL_URL usually doesn't)
-  const cleanHost = host.replace(/^https?:\/\//, '');
-  const baseUrl = `${protocol}://${cleanHost}`;
+  const baseUrl = `${protocol}://${host}`;
 
   // Ensure absolute image URL with CACHE BUSTING
   const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
-  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=6` : null; // Increment version to 6
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=7` : null; // Increment version to 7
 
   const imageObj = imageUrl ? {
     url: imageUrl,
