@@ -48,21 +48,22 @@ export async function generateMetadata(props) {
 
   // Robustly determine the absolute URL using headers
   const headersList = await headers();
-  let host = headersList.get('host');
   
-  // Fallback if host header is missing (e.g. some build environments)
-  if (!host && process.env.VERCEL_URL) {
-    host = process.env.VERCEL_URL;
-  }
-  host = host || 'localhost:3000';
-
+  // Detemine the Best Host for Assets
+  // Prefer VERCEL_URL if available (guarantees public access), otherwise use Request Host
+  let host = process.env.VERCEL_URL || headersList.get('host') || 'localhost:3000';
+  
   const isLocalhost = host.includes('localhost');
   const protocol = headersList.get('x-forwarded-proto') || (isLocalhost ? 'http' : 'https');
-  const baseUrl = `${protocol}://${host}`;
+  
+  // Clean host (VERCEL_URL often doesn't have protocol, so we add it)
+  // If host already has http/https, strip it first to be safe (though VERCEL_URL usually doesn't)
+  const cleanHost = host.replace(/^https?:\/\//, '');
+  const baseUrl = `${protocol}://${cleanHost}`;
 
   // Ensure absolute image URL with CACHE BUSTING
   const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
-  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=3` : null; // Increment version
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=4` : null; // Increment version to 4
 
   const imageObj = imageUrl ? {
     url: imageUrl,
@@ -90,10 +91,11 @@ export async function generateMetadata(props) {
       title: 'Đặt đơn nhóm GrabFood',
       description: 'Mỗi thành viên có thể tự chọn món yêu thích từ điện thoại của mình và cùng tiết kiệm phí giao hàng!',
       images: images,
-      domain: 'r.grab.com', // Try to spoof twitter card domain
+      domain: 'r.grab.com',
     }
   };
 }
+
 
 export default async function LinkPage(props) {
   const params = await props.params;

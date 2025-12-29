@@ -23,7 +23,6 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const destinationUrl = formData.get('destinationUrl');
-    const file = formData.get('file');
     const template = formData.get('template');
 
     if (!destinationUrl) {
@@ -39,23 +38,8 @@ export async function POST(request) {
         id += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       
-      let imageUrl = null;
-
-      if (template) {
-        // Use pre-existing template (Stateless compatible path)
-        imageUrl = template; 
-      } else if (file && file.size > 0) {
-        // File Upload Processing
-        try { await fs.mkdir(UPLOAD_DIR, { recursive: true }); } catch (e) {}
-        
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const ext = path.extname(file.name) || '.jpg';
-        const filename = `${id}${ext}`;
-        const filepath = path.join(UPLOAD_DIR, filename);
-        
-        await fs.writeFile(filepath, buffer);
-        imageUrl = `/uploads/${filename}`;
-      }
+      // Use template or default
+      const imageUrl = template || '/templates/thumbnail.png';
 
       const newLink = {
         id,
@@ -78,7 +62,10 @@ export async function POST(request) {
       // Fallback: Stateless ID (Encode data in ID)
       const payload = { 
         d: destinationUrl,
-        i: template || null // Support template images even in stateless mode!
+        // If template was selected, use it.
+        // If file upload failed (which brings us here), fallback to default template
+        // so the user effectively gets a working link with a Grab image instead of no image.
+        i: template || '/templates/thumbnail.png' 
       };
       
       const token = Buffer.from(JSON.stringify(payload)).toString('base64url');
