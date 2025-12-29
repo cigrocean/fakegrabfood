@@ -58,5 +58,11 @@
     "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
     "imageUrl": null,
     "createdAt": "2025-12-29T04:50:40.697Z"
+  },
+  {
+    "id": "AQG5pg3Y",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/templates/thumbnail.png",
+    "createdAt": "2025-12-29T06:13:40.353Z"
   }
 ]

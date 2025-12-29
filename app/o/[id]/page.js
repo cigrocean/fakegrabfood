@@ -32,6 +32,10 @@ async function getLink(id) {
   }
 }
 
+import { headers } from 'next/headers';
+
+// ... (keep getLink function)
+
 export async function generateMetadata(props) {
   const params = await props.params;
   const link = await getLink(params.id);
@@ -42,10 +46,17 @@ export async function generateMetadata(props) {
     };
   }
 
-  // Construct image URL
-  // Next.js will automatically resolve relative paths (like /templates/thumbnail.png) 
-  // against the metadataBase configured in layout.js.
-  const images = link.imageUrl ? [link.imageUrl] : [];
+  // Robustly determine the absolute URL using headers
+  // This works on Vercel, Localhost, and VPS without manual config
+  const headersList = await headers();
+  const host = headersList.get('host') || 'localhost:3000';
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const baseUrl = `${protocol}://${host}`;
+
+  // Ensure absolute image URL
+  // link.imageUrl is like "/templates/thumbnail.png"
+  const imageUrl = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
+  const images = imageUrl ? [imageUrl] : [];
 
   return {
     title: 'Đặt đơn nhóm GrabFood',
@@ -57,7 +68,6 @@ export async function generateMetadata(props) {
       images: images,
       type: 'website',
     },
-    // We can also try to trick some agents with twitter card
     twitter: {
       card: 'summary_large_image',
       title: 'Đặt đơn nhóm GrabFood',
