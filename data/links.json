@@ -1,0 +1,56 @@
+[
+  {
+    "id": "vfw58y",
+    "destinationUrl": "https://google.com",
+    "imageUrl": null,
+    "createdAt": "2025-12-29T03:55:37.415Z"
+  },
+  {
+    "id": "7j55fj",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/7j55fj.png",
+    "createdAt": "2025-12-29T03:59:20.099Z"
+  },
+  {
+    "id": "at6ls8",
+    "destinationUrl": "https://example.com",
+    "imageUrl": null,
+    "createdAt": "2025-12-29T04:02:38.925Z"
+  },
+  {
+    "id": "wpac59",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/wpac59.png",
+    "createdAt": "2025-12-29T04:04:47.534Z"
+  },
+  {
+    "id": "Tct65vYA",
+    "destinationUrl": "https://google.com",
+    "imageUrl": null,
+    "createdAt": "2025-12-29T04:06:32.689Z"
+  },
+  {
+    "id": "NJOfn4iv",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/NJOfn4iv.png",
+    "createdAt": "2025-12-29T04:17:49.941Z"
+  },
+  {
+    "id": "xI0MCBZ3",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/xI0MCBZ3.png",
+    "createdAt": "2025-12-29T04:19:47.128Z"
+  },
+  {
+    "id": "gBTi0PFU",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/gBTi0PFU.png",
+    "createdAt": "2025-12-29T04:22:30.016Z"
+  },
+  {
+    "id": "gFSjB251",
+    "destinationUrl": "https://youtu.be/dQw4w9WgXcQ?si=wnk3BTobDpc8pq1f",
+    "imageUrl": "/uploads/gFSjB251.png",
+    "createdAt": "2025-12-29T04:25:16.189Z"
+  }
+]
