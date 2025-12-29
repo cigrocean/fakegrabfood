@@ -42,15 +42,9 @@ export async function generateMetadata(props) {
     };
   }
 
-  // Construct absolute image URL
-  // Note: link.imageUrl is relative like /uploads/abc.jpg
-  // For OG tags, it's best to use absolute URLs. 
-  // Since we don't know the deployed domain, we might rely on relative if supported 
-  // or simple localhost for now. In production, this needs env var.
-  // We'll use relative which Next.js resolves if MetadataBase is set, or just hope the platform resolves it.
-  // Actually, for local preview, it won't work on external platforms anyway since localhost isn't public.
-  // But the implementation is correct.
-  
+  // Construct image URL
+  // Next.js will automatically resolve relative paths (like /templates/thumbnail.png) 
+  // against the metadataBase configured in layout.js.
   const images = link.imageUrl ? [link.imageUrl] : [];
 
   return {
