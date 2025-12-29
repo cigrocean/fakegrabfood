@@ -5,6 +5,24 @@ import { notFound } from 'next/navigation';
 
 // Helper to get link data
 async function getLink(id) {
+  // Handle Stateless IDs (deployment fallback)
+  if (id.startsWith('e_')) {
+    try {
+      const token = id.substring(2);
+      const json = Buffer.from(token, 'base64url').toString('utf-8');
+      const payload = JSON.parse(json);
+      return {
+        id,
+        destinationUrl: payload.d,
+        imageUrl: payload.i || null // imageUrl might be undefined in stateless mode
+      };
+    } catch (e) {
+      console.error('Invalid stateless ID:', e);
+      return null;
+    }
+  }
+
+  // Handle Stateful IDs (local json)
   try {
     const data = await fs.readFile(path.join(process.cwd(), 'data', 'links.json'), 'utf8');
     const links = JSON.parse(data);

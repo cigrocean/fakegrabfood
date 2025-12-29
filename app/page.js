@@ -4,14 +4,26 @@ import { useState } from 'react';
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState('');
   const [destinationUrl, setDestinationUrl] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+
+  const templates = [
+    { name: 'Default Grab', path: '/templates/thumbnail.png' },
+  ];
+
+  const handleTemplateSelect = (path) => {
+    setSelectedTemplate(path);
+    setPreviewImage(path);
+    setSelectedFile(null); // Clear manual file upload
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
+      setSelectedTemplate(''); // Clear template selection
       setPreviewImage(URL.createObjectURL(file));
     }
   };
@@ -23,7 +35,10 @@ export default function Home() {
     try {
       const formData = new FormData();
       formData.append('destinationUrl', destinationUrl);
-      if (selectedFile) {
+      
+      if (selectedTemplate) {
+        formData.append('template', selectedTemplate);
+      } else if (selectedFile) {
         formData.append('file', selectedFile);
       }
 
@@ -97,9 +112,37 @@ export default function Home() {
               />
             </div>
 
+            {/* Template Selection */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Custom Thumbnail</label>
-              <div className="relative border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-[#00b14f] hover:bg-green-50 transition-all cursor-pointer group">
+              <label className="block text-sm font-medium mb-2 text-gray-700">Choose Template</label>
+              <div className="grid grid-cols-2 gap-3">
+                {templates.map((t) => (
+                  <div 
+                    key={t.path}
+                    onClick={() => handleTemplateSelect(t.path)}
+                    className={`
+                      cursor-pointer rounded-xl overflow-hidden border-2 transition-all relative aspect-[1.91/1]
+                      ${selectedTemplate === t.path ? 'border-[#00b14f] ring-2 ring-[#00b14f]/20' : 'border-gray-200 hover:border-gray-300'}
+                    `}
+                  >
+                    <img src={t.path} alt={t.name} className="w-full h-full object-cover" />
+                    {selectedTemplate === t.path && (
+                      <div className="absolute inset-0 bg-[#00b14f]/20 flex items-center justify-center">
+                        <div className="bg-[#00b14f] text-white rounded-full p-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-center text-xs text-gray-400 font-medium -my-2">OR</div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2 text-gray-700">Upload Custom Image</label>
+              <div className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer group ${selectedFile ? 'border-[#00b14f] bg-green-50' : 'border-gray-200 hover:border-[#00b14f] hover:bg-green-50'}`}>
                 <input 
                   type="file" 
                   accept="image/*"
@@ -107,8 +150,10 @@ export default function Home() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 />
                 <div className="flex flex-col items-center gap-2">
-                  <svg className="w-8 h-8 text-gray-400 group-hover:text-[#00b14f] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                  <p className="text-gray-500 text-sm group-hover:text-gray-700">Drop image here or click to browse</p>
+                  <svg className={`w-8 h-8 transition-colors ${selectedFile ? 'text-[#00b14f]' : 'text-gray-400 group-hover:text-[#00b14f]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <p className={`text-sm ${selectedFile ? 'text-[#00b14f] font-medium' : 'text-gray-500 group-hover:text-gray-700'}`}>
+                    {selectedFile ? 'Image Selected (Click to change)' : 'Drop image here or click to browse'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -118,7 +163,7 @@ export default function Home() {
               disabled={loading}
               className="mt-2 w-full py-4 rounded-xl bg-[#00b14f] hover:bg-[#009e47] text-white font-bold text-lg shadow-lg hover:shadow-green-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
             >
-              {loading ? 'Generaitng Magic...' : 'Generate Fake Link'}
+              {loading ? 'Generating Magic...' : 'Generate Fake Link'}
             </button>
           </form>
 
