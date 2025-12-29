@@ -59,7 +59,7 @@ export async function generateMetadata(props) {
 
   // Ensure absolute image URL with CACHE BUSTING
   const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
-  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=7` : null; // Increment version to 7
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=8` : null; // Increment version to 8
 
   const imageObj = imageUrl ? {
     url: imageUrl,

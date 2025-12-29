@@ -5,13 +5,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState('');
   // Set default template immediately
-  const [selectedTemplate, setSelectedTemplate] = useState('/templates/thumbnail.jpg');
+  const [selectedTemplate, setSelectedTemplate] = useState('https://files.catbox.moe/zohd5m.jpg');
   const [destinationUrl, setDestinationUrl] = useState('');
   // Set default preview immediately
-  const [previewImage, setPreviewImage] = useState('/templates/thumbnail.jpg');
+  const [previewImage, setPreviewImage] = useState('https://files.catbox.moe/zohd5m.jpg');
 
   const templates = [
-    { name: 'Default Grab', path: '/templates/thumbnail.jpg' },
+    { name: 'Default Grab', path: 'https://files.catbox.moe/zohd5m.jpg' },
   ];
 
   const handleTemplateSelect = (path) => {
