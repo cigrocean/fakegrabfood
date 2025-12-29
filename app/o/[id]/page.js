@@ -48,17 +48,32 @@ export async function generateMetadata(props) {
 
   // Robustly determine the absolute URL using headers
   const headersList = await headers();
-  const host = headersList.get('host') || 'localhost:3000';
+  let host = headersList.get('host');
+  
+  // Fallback if host header is missing (e.g. some build environments)
+  if (!host && process.env.VERCEL_URL) {
+    host = process.env.VERCEL_URL;
+  }
+  host = host || 'localhost:3000';
+
   const isLocalhost = host.includes('localhost');
   const protocol = headersList.get('x-forwarded-proto') || (isLocalhost ? 'http' : 'https');
   const baseUrl = `${protocol}://${host}`;
 
   // Ensure absolute image URL with CACHE BUSTING
-  // ?v=2 forces platforms to re-fetch the image if they cached a broken one
   const imageUrlRaw = link.imageUrl ? (link.imageUrl.startsWith('http') ? link.imageUrl : `${baseUrl}${link.imageUrl}`) : null;
-  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=2` : null;
+  const imageUrl = imageUrlRaw ? `${imageUrlRaw}?v=3` : null; // Increment version
 
-  const images = imageUrl ? [imageUrl] : [];
+  const imageObj = imageUrl ? {
+    url: imageUrl,
+    secureUrl: imageUrl,
+    width: 1200,
+    height: 630,
+    type: 'image/png',
+    alt: 'GrabFood Group Order',
+  } : null;
+
+  const images = imageObj ? [imageObj] : [];
 
   return {
     title: 'Đặt đơn nhóm GrabFood',
