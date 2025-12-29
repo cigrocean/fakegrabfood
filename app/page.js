@@ -5,13 +5,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [generatedLink, setGeneratedLink] = useState('');
   // Set default template immediately
-  const [selectedTemplate, setSelectedTemplate] = useState('/templates/thumbnail.png');
+  const [selectedTemplate, setSelectedTemplate] = useState('https://placehold.co/1200x630/00b14f/ffffff.png?text=GrabFood+Group+Order');
   const [destinationUrl, setDestinationUrl] = useState('');
   // Set default preview immediately
-  const [previewImage, setPreviewImage] = useState('/templates/thumbnail.png');
+  const [previewImage, setPreviewImage] = useState('https://placehold.co/1200x630/00b14f/ffffff.png?text=GrabFood+Group+Order');
 
   const templates = [
-    { name: 'Default Grab', path: '/templates/thumbnail.png' },
+    { name: 'Default Grab', path: 'https://placehold.co/1200x630/00b14f/ffffff.png?text=GrabFood+Group+Order' },
   ];
 
   const handleTemplateSelect = (path) => {

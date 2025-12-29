@@ -39,7 +39,7 @@ export async function POST(request) {
       }
       
       // Use template or default
-      const imageUrl = template || '/templates/thumbnail.png';
+      const imageUrl = template || 'https://placehold.co/1200x630/00b14f/ffffff.png?text=GrabFood+Group+Order';
 
       const newLink = {
         id,
@@ -65,7 +65,7 @@ export async function POST(request) {
         // If template was selected, use it.
         // If file upload failed (which brings us here), fallback to default template
         // so the user effectively gets a working link with a Grab image instead of no image.
-        i: template || '/templates/thumbnail.png' 
+        i: template || 'https://placehold.co/1200x630/00b14f/ffffff.png?text=GrabFood+Group+Order' 
       };
       
       const token = Buffer.from(JSON.stringify(payload)).toString('base64url');
